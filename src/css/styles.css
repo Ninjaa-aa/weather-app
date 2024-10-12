@@ -1,0 +1,377 @@
+:root {
+    --neon-blue: #00f3ff;
+    --neon-purple: #9333ea;
+    --neon-pink: #ff00ff;
+    --dark-bg: #1a1a2e;
+    --darker-bg: #0f0f1a;
+}
+
+body {
+    background-color: var(--darker-bg);
+    color: #ffffff;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.cyber-grid {
+    background-image: 
+        linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.glassmorphism {
+    background: rgba(26, 26, 46, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 243, 255, 0.3);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
+}
+
+.neon-box {
+    box-shadow: 0 0 10px var(--neon-blue),
+                0 0 20px rgba(0, 243, 255, 0.5),
+                0 0 30px rgba(0, 243, 255, 0.3);
+}
+
+.neon-text {
+    color: var(--neon-blue);
+    text-shadow: 0 0 5px var(--neon-blue),
+                 0 0 10px var(--neon-blue),
+                 0 0 15px var(--neon-blue);
+}
+
+.gradient-shift {
+    background: linear-gradient(45deg, var(--dark-bg), #16213e, #0f3460);
+    background-size: 200% 200%;
+    animation: gradientShift 10s ease infinite;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.futuristic-border {
+    border: 1px solid var(--neon-blue);
+    box-shadow: 0 0 5px var(--neon-blue);
+}
+
+/* Temperature unit toggle */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 243, 255, 0.2);
+    transition: .4s;
+    border: 1px solid var(--neon-blue);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 3px;
+    background-color: #fff;
+    transition: .4s;
+    box-shadow: 0 0 5px var(--neon-blue);
+}
+
+input:checked + .slider {
+    background-color: rgba(147, 51, 234, 0.5);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+/* Custom styles for the dashboard elements */
+.dashboard-card {
+    background-color: rgba(15, 15, 26, 0.8);
+    border: 1px solid var(--neon-blue);
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+.dashboard-title {
+    color: var(--neon-blue);
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+
+.dashboard-value {
+    color: #ffffff;
+    font-size: 2rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+/* Forecast cards */
+.forecast-card {
+    background-color: rgba(15, 15, 26, 0.8);
+    border: 1px solid var(--neon-purple);
+    box-shadow: 0 0 10px var(--neon-purple);
+}
+
+.forecast-day {
+    color: var(--neon-purple);
+    font-weight: bold;
+}
+
+.forecast-temp {
+    color: #ffffff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Search bar */
+.search-bar {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--neon-blue);
+    color: #ffffff;
+}
+
+.search-bar::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.search-bar:focus {
+    outline: none;
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.animate-slide-in {
+    animation: slideIn 0.5s ease-out;
+}
+
+.animate-pulse-slow {
+    animation: pulse 3s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.animate-spin-slow {
+    animation: spin 10s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInFromBottom {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.slide-in {
+    animation: slideInFromBottom 0.5s ease-in-out;
+}
+
+.weather-icon {
+    transition: transform 0.3s ease-in-out;
+}
+
+.weather-icon:hover {
+    transform: scale(1.1);
+}
+
+.dashboard-card {
+    background-color: rgba(15, 15, 26, 0.8);
+    border: 1px solid var(--neon-blue);
+    box-shadow: 0 0 10px var(--neon-blue);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+select option {
+    background-color: #1a1a2e; /* Dark background for dropdown options */
+    color: #00f3ff; /* Neon blue text for options */
+}
+
+select:focus {
+    box-shadow: 0 0 0 2px #ff00ff; /* Neon pink glow on focus */
+}
+
+.cyber-select {
+    background-color: rgba(0, 243, 255, 0.1);
+    color: #00f3ff;
+    border: 2px solid #9333ea;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%239333ea' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.7rem top 50%;
+    background-size: 1.5rem auto;
+}
+.cyber-select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.5);
+}
+.cyber-select option {
+    background-color: #1a1a2e;
+    color: #00f3ff;
+}
+.cyber-button {
+    background: linear-gradient(45deg, #9333ea, #ff00ff);
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px rgba(147, 51, 234, 0.5);
+}
+.cyber-button:hover {
+    background: linear-gradient(45deg, #ff00ff, #9333ea);
+    transform: translateY(-2px);
+    box-shadow: 0 0 20px rgba(255, 0, 255, 0.7);
+}
+
+.chart-card {
+    height: 300px; /* Adjust this value as needed */
+}
+
+.dashboard-title {
+    color: var(--neon-blue);
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--neon-blue);
+    margin-bottom: 0.5rem;
+}
+
+.chart-container {
+    flex-grow: 1;
+    position: relative;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+}
+.futuristic-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+.futuristic-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: rgba(26, 26, 46, 0.9);
+}
+.futuristic-table th {
+    padding: 1rem;
+    text-align: left;
+    color: var(--neon-purple);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.futuristic-table tbody tr {
+    background: rgba(255, 255, 255, 0.05);
+    transition: background-color 0.3s ease;
+}
+.futuristic-table tbody tr:hover {
+    background: rgba(0, 243, 255, 0.1);
+}
+.futuristic-table td {
+    padding: 1rem;
+    border-top: 1px solid rgba(0, 243, 255, 0.3);
+    border-bottom: 1px solid rgba(0, 243, 255, 0.3);
+    transition: color 0.3s ease;
+}
+.futuristic-table td:first-child {
+    border-left: 1px solid rgba(0, 243, 255, 0.3);
+}
+.futuristic-table td:last-child {
+    border-right: 1px solid rgba(0, 243, 255, 0.3);
+}
+.futuristic-table tr:hover td {
+    color: var(--neon-blue);
+}
+/* Custom scrollbar */
+.table-container::-webkit-scrollbar {
+    width: 10px;
+}
+.table-container::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+.table-container::-webkit-scrollbar-thumb {
+    background: var(--neon-blue);
+    border-radius: 5px;
+}
+.table-container::-webkit-scrollbar-thumb:hover {
+    background: var(--neon-purple);
+}
+
+#loading-spinner {
+    backdrop-filter: blur(5px);
+}
