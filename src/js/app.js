@@ -120,11 +120,15 @@ $(document).ready(function() {
     function showErrorMessage(message) {
         const errorElement = $('#error-message');
         errorElement.text(message).slideDown(300).addClass('slide-in');
-        setTimeout(() => errorElement.slideUp(300), 5000);
-    }   
+    }
+
+    function hideErrorMessage() {
+        const errorElement = $('#error-message');
+        errorElement.slideUp(300).removeClass('slide-in');
+    }
 
     function updateWeather(data, unit) {
-        $('#error-message').hide();
+        hideErrorMessage(); // Hide error message when updating weather
         $('.text-2xl.font-semibold.mb-4.text-neon-blue').text(data.name).addClass('fade-in');
         updateTemperatures();
         $('.glassmorphism, .weather-icon').addClass('fade-in');

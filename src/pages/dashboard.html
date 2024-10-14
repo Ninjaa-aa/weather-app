@@ -37,8 +37,8 @@
                     <div class="flex flex-col md:flex-row justify-between items-center mb-6 animate-slide-in">
                         <div class="w-full md:w-2/3 mb-4 md:mb-0 flex items-center">
                             <div class="relative flex-grow">
-                                <input type="text" id="city-search"placeholder="Search location..." class="w-full py-2 px-4 pr-10 rounded-md bg-white bg-opacity-10 border border-neon-blue focus:outline-none focus:ring-2 focus:ring-neon-purple focus:border-neon-purple transition duration-300 text-white placeholder-gray-400">
-                                <button class="absolute right-3 top-2 text-neon-blue hover:text-neon-purple transition duration-300">
+                                <input type="text" id="city-search" placeholder="Search location..." class="w-full py-2 px-4 pr-10 rounded-md bg-white bg-opacity-10 border border-neon-blue focus:outline-none focus:ring-2 focus:ring-neon-purple focus:border-neon-purple transition duration-300 text-white placeholder-gray-400">
+                                <button id="search-button" class="absolute right-3 top-2 text-neon-blue hover:text-neon-purple transition duration-300">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
@@ -58,6 +58,9 @@
                         </div>
                     </div>
                     
+                    <!-- Error message container -->
+                    <div id="error-message" class="error-message"></div>
+
                     <div class="glassmorphism rounded-lg p-6 mb-6 animate-slide-in hologram fade-in" style="animation-delay: 0.1s;">
                         <h2 class="text-2xl font-semibold mb-4 text-neon-blue neon-text">Neo Tokyo</h2>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -76,7 +79,6 @@
                         </div>
                     </div>
                 
-                    
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-slide-in" style="animation-delay: 0.3s;">
                         <div class="dashboard-card chart-card">
                             <h3 class="dashboard-title">Temperature Trend</h3>
@@ -107,7 +109,7 @@
         </button>
     </div>
     <div id="loading-spinner" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
-        <div class="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-neon-blue"></div>
+        <div class="loading-spinner"></div>
     </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
