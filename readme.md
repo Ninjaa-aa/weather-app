@@ -2,6 +2,10 @@
 
 NEXUSWeather is a fully responsive weather dashboard that provides current weather information and a 5-day forecast using the OpenWeather API. It also includes a chatbot powered by Dialogflow for answering weather-related queries.
 
+## Live Demo
+
+You can access the live version of NEXUSWeather at: [https://nexus-weather-511.web.app](https://nexus-weather-511.web.app)
+
 ## Features
 
 - Current weather information
@@ -63,7 +67,7 @@ To run the project locally with full functionality, you'll need to set up the fo
 
 ## Deployment to Firebase
 
-To deploy the project to Firebase:
+The project is already deployed to Firebase. If you want to deploy your own version:
 
 1. Install Firebase CLI:
    ```
