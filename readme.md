@@ -11,6 +11,19 @@ NEXUSWeather is a fully responsive weather dashboard that provides current weath
 - Unit conversion (Celsius/Fahrenheit)
 - Chatbot integration for weather queries
 - Responsive design
+- Geolocation support
+- Advanced filtering options
+
+### Filtering Options
+
+- Show temperatures in ascending order
+- Show temperatures in descending order
+- Filter out days without rain
+- Show the day with the highest temperature
+
+### Geolocation Support
+
+The dashboard uses the browser's geolocation API to detect the user's location and show weather information for that location by default.
 
 ## Technologies Used
 
@@ -84,6 +97,7 @@ To deploy the project to Firebase:
 - The project uses the free tier of OpenWeather API, which has a limit of 60 calls/minute. Please be mindful of this limitation when testing.
 - The chatbot is integrated using Dialogflow's `<df-messenger>` web component. Ensure you have the correct agent ID for it to function properly.
 - The project includes various filters for the weather data, accessible through the dropdown menu on the table page.
+- Geolocation functionality requires user permission and a secure context (HTTPS) to work properly.
 
 ## Contributing
 
