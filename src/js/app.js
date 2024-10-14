@@ -6,19 +6,7 @@ $(document).ready(function() {
     let weatherData = {};
     let lastSearchTerm = '';
     let forecastData = [];
-    let minimized = false;
     
-    $('#chatbot-toggle').click(function() {
-        minimized = !minimized;
-        if (minimized) {
-            $('#chatbot-iframe').addClass('chatbot-minimized');
-            $(this).text('+');
-        } else {
-            $('#chatbot-iframe').removeClass('chatbot-minimized');
-            $(this).text('-');
-        }
-    });
-
     const commonChartOptions = {
         responsive: true,
         maintainAspectRatio: false,

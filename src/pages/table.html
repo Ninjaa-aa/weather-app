@@ -15,10 +15,18 @@
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/96/weather.png">
     
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <style>
+        df-messenger {
+            z-index: 999;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
+    </style>
 </head>
 <body class="bg-dark cyber-grid">
     <div class="container mx-auto p-4 lg:p-8">
-        <!-- Place this just inside the <body> tag, before other content -->
+        <!-- Loading overlay -->
         <div id="loading-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm hidden">
             <div class="loading-spinner"></div>
         </div>
@@ -65,7 +73,6 @@
                         <div class="w-full md:w-1/3 flex justify-end">
                             <img id="profile-image" src="../asset/img/ninja.jpg" alt="Profile" class="profile-image cursor-pointer w-10 h-10 rounded-full object-cover border-2 border-neon-blue hover:scale-110 transition-transform duration-300">
                         </div>
-
                     </header>
                     
                     <!-- Error message container -->
@@ -108,14 +115,6 @@
         </main>
     </div>
 
-    
-    <df-messenger
-      intent="WELCOME"
-      chat-title="NEXUSWeather Assistant"
-      agent-id="217ad719-4bfa-40f5-93b4-7c709cfa5886"
-      language-code="en"
-    ></df-messenger>
-
     <!-- Modal -->
     <div id="profileModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-dark glassmorphism neon-box p-8 rounded-lg max-w-sm w-full relative">
@@ -128,7 +127,16 @@
         </div>
     </div>
 
+    <!-- Dialogflow Messenger Element -->
+    <df-messenger
+      intent="WELCOME"
+      chat-title="NEXUSWeather Assistant"
+      agent-id="802521ad-aa64-40f8-ae79-86b568d579b0"
+      language-code="en"
+      chat-icon="https://img.icons8.com/fluency/48/weather.png"
+    ></df-messenger>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/app.js"></script>
 </body>
-</html>s
+</html>

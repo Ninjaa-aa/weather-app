@@ -410,60 +410,64 @@ canvas {
     box-shadow: 0 0 15px rgba(52, 152, 219, 0.7);
 }
 
-#chatbot-container {
+/* Chatbot custom styles */
+df-messenger {
+    z-index: 999;
     position: fixed;
     bottom: 20px;
     right: 20px;
-    z-index: 1000;
+    --df-messenger-bot-message: #1a1a2e;
+    --df-messenger-button-titlebar-color: #00f3ff;
+    --df-messenger-chat-background-color: #0f0f1a;
+    --df-messenger-font-color: #ffffff;
+    --df-messenger-send-icon: #9333ea;
+    --df-messenger-user-message: #16213e;
+    --df-messenger-button-titlebar-font-color: #ffffff;
+    --df-messenger-button-titlebar-font: 'Orbitron', sans-serif;
+    --df-messenger-chat-font-color: #ffffff;
+    --df-messenger-chat-font: 'Orbitron', sans-serif;
+    --df-messenger-input-font-color: #ffffff;
+    --df-messenger-input-box-color: #1a1a2e;
+    --df-messenger-input-placeholder-font-color: #9333ea;
+    --df-messenger-minimized-chat-icon: url('https://img.icons8.com/fluency/48/weather.png');
+}
+
+df-messenger::part(chatbot-button) {
+    background-color: #00f3ff;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+}
+
+df-messenger::part(chat-wrapper) {
+    border: 1px solid #00f3ff;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
-    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
 }
-#chatbot-container:hover {
-    box-shadow: 0 0 30px rgba(0, 243, 255, 0.8);
+
+df-messenger::part(chat-title) {
+    text-shadow: 0 0 5px #00f3ff;
 }
-#chatbot-iframe {
-    border: none;
-    width: 350px;
-    height: 430px;
-    transition: all 0.3s ease;
+
+df-messenger::part(bot-message) {
+    border: 1px solid #9333ea;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(147, 51, 234, 0.3);
 }
-#chatbot-toggle {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: rgba(0, 243, 255, 0.2);
-    border: none;
-    color: white;
-    padding: 5px 10px;
+
+df-messenger::part(user-message) {
+    border: 1px solid #00f3ff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+}
+
+df-messenger::part(text-input) {
+    border: 1px solid #9333ea;
     border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-#chatbot-toggle:hover {
-    background: rgba(0, 243, 255, 0.4);
-}
-.chatbot-minimized {
-    width: 60px !important;
-    height: 60px !important;
 }
 
-df-messenger {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
+df-messenger::part(send-icon) {
+    filter: drop-shadow(0 0 5px #9333ea);
 }
-df-messenger {
-    --df-messenger-bot-message: #0e1117;
-    --df-messenger-button-titlebar-color: #2b2f3e;
-    --df-messenger-chat-background-color: #131722;
-    --df-messenger-font-color: white;
-    --df-messenger-send-icon: #00f3ff;
-    --df-messenger-user-message: #4b5563;
-}
-
 /* Modal styling */
 #profileModal {
     transition: opacity 0.3s ease;
