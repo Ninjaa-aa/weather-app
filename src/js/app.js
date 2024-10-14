@@ -3,8 +3,9 @@ $(document).ready(function() {
     const BASE_URL = 'https://api.openweathermap.org/data/2.5';
     let currentUnit = 'metric';
     let tempChart, precipChart, aqiChart;
-    let weatherData = {}; // Store weather data for easy conversion
-    let lastSearchTerm = ''; // Store the last searched term
+    let weatherData = {};
+    let lastSearchTerm = '';
+    let forecastData = [];
 
     const commonChartOptions = {
         responsive: true,
@@ -36,7 +37,6 @@ $(document).ready(function() {
         }
     };
 
-    // City search functionality
     $('#city-search').on('keyup', function(e) {
         if (e.key === 'Enter') {
             const searchTerm = $(this).val().trim();
@@ -53,12 +53,15 @@ $(document).ready(function() {
         }
     });
 
-    // Unit toggle functionality
     $('#unitToggle').on('change', function() {
         currentUnit = this.checked ? 'imperial' : 'metric';
-        updateTableTemperatures();
-        updateDashboardTemperatures();
-        updateCharts(weatherData[lastSearchTerm], currentUnit);
+        updateTemperatures();
+        if (forecastData.length > 0) {
+            updateForecastDisplay();
+            if ($('#temperatureChart').length) {
+                updateCharts(forecastData, currentUnit);
+            }
+        }
     });
 
     function fetchWeatherData(city, unit) {
@@ -67,12 +70,10 @@ $(document).ready(function() {
             url: `${BASE_URL}/weather?q=${city}&units=${unit}&appid=${API_KEY}`,
             method: 'GET',
             success: function(data) {
-                console.log('API response:', data);  // Add this line
                 weatherData[city] = data;
                 lastSearchTerm = city;
                 updateWeather(data, unit);
                 fetchForecast(city, unit);
-                addWeatherToTable(data, unit);
                 hideLoadingSpinner();
             },
             error: function(xhr) {
@@ -83,13 +84,18 @@ $(document).ready(function() {
     }
 
     function fetchForecast(city, unit) {
-        showLoadingSpinner();   
+        showLoadingSpinner();
         $.ajax({
             url: `${BASE_URL}/forecast?q=${city}&units=${unit}&appid=${API_KEY}`,
             method: 'GET',
             success: function(data) {
-                updateForecast(data, unit);
-                updateCharts(data, unit);
+                forecastData = data.list.filter(item => item.dt_txt.includes('12:00:00'));
+                $('#city-name').text(data.city.name);
+                lastSearchTerm = city;
+                updateForecastDisplay();
+                if ($('#temperatureChart').length) {
+                    updateCharts(forecastData, unit);
+                }
                 hideLoadingSpinner();
             },
             error: function(xhr) {
@@ -112,110 +118,40 @@ $(document).ready(function() {
     }
 
     function showErrorMessage(message) {
-        // Create or update an error message element
-        let errorElement = $('#error-message');
-        if (errorElement.length === 0) {
-            errorElement = $('<div id="error-message" class="text-red-500 mb-4"></div>');
-            $('.glassmorphism').prepend(errorElement);
-        }
-        errorElement.text(message).show();
-        setTimeout(() => errorElement.fadeOut(), 5000); // Hide after 5 seconds
-    }
+        const errorElement = $('#error-message');
+        errorElement.text(message).slideDown(300).addClass('slide-in');
+        setTimeout(() => errorElement.slideUp(300), 5000);
+    }   
 
     function updateWeather(data, unit) {
-        // Clear any existing error messages
         $('#error-message').hide();
-
-        // Update city name
-        $('.text-2xl.font-semibold.mb-4.text-neon-blue').text(data.name);
-
-        // Update current weather
-        updateDashboardTemperatures();
-
-         // Add fade-in class to elements
-        $('.glassmorphism').addClass('fade-in');
-        $('.weather-icon').addClass('fade-in');
-
-        // Remove fade-in class after animation completes
+        $('.text-2xl.font-semibold.mb-4.text-neon-blue').text(data.name).addClass('fade-in');
+        updateTemperatures();
+        $('.glassmorphism, .weather-icon').addClass('fade-in');
         setTimeout(() => {
-            $('.glassmorphism, .weather-icon').removeClass('fade-in');
+            $('.glassmorphism, .weather-icon, .text-2xl.font-semibold.mb-4.text-neon-blue').removeClass('fade-in');
         }, 500);
     }
 
-    function updateDashboardTemperatures() {
+    function updateTemperatures() {
         const latestData = weatherData[lastSearchTerm];
         if (latestData) {
             const temp = currentUnit === 'metric' ? latestData.main.temp : celsiusToFahrenheit(latestData.main.temp);
             const windSpeed = currentUnit === 'metric' ? latestData.wind.speed : mpsToMph(latestData.wind.speed);
-            console.log('Updating wind speed:', latestData.wind.speed, 'Converted:', windSpeed);  // Add this line
-            $('.text-3xl.font-bold.text-white.animate-pulse-slow').eq(0).text(`${Math.round(temp)}°${currentUnit === 'metric' ? 'C' : 'F'}`);
-            $('.text-3xl.font-bold.text-white.animate-pulse-slow').eq(1).text(`${latestData.main.humidity}%`);
-            $('.text-3xl.font-bold.text-white.animate-pulse-slow').eq(2).text(`${windSpeed.toFixed(2)} ${currentUnit === 'metric' ? 'm/s' : 'mph'}`);
+            $('.text-3xl.font-bold.text-white.animate-pulse-slow').each(function(index) {
+                $(this).addClass('fade-in');
+                if (index === 0) {
+                    $(this).text(`${Math.round(temp)}°${currentUnit === 'metric' ? 'C' : 'F'}`);
+                } else if (index === 1) {
+                    $(this).text(`${latestData.main.humidity}%`);
+                } else if (index === 2) {
+                    $(this).text(`${windSpeed.toFixed(2)} ${currentUnit === 'metric' ? 'm/s' : 'mph'}`);
+                }
+                setTimeout(() => $(this).removeClass('fade-in'), 500);
+            });
         }
     }
 
-    function updateForecast(data, unit) {
-        console.log('Updating forecast with data:', data);
-        const forecastDays = $('.grid.grid-cols-2.sm\\:grid-cols-3.lg\\:grid-cols-5.gap-4 > div');
-        const dailyData = data.list.filter(item => item.dt_txt.includes('12:00:00'));
-        console.log('Filtered daily data:', dailyData);
-    
-        dailyData.forEach((day, index) => {
-            if (index < 5) {
-                console.log(`Updating forecast for day ${index + 1}:`, day);
-                const dayElement = forecastDays.eq(index);
-                const date = new Date(day.dt * 1000);
-                const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
-    
-                dayElement.find('p:first').text(dayName);
-                dayElement.find('.text-lg.font-bold.text-white').text(`${Math.round(day.main.temp)}°${unit === 'metric' ? 'C' : 'F'}`);
-                dayElement.find('.text-xs.text-neon-blue').text(day.weather[0].description);
-    
-                // Update weather icon
-                const iconCode = day.weather[0].icon;
-                const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
-                console.log(`Loading icon for day ${index + 1}:`, iconUrl);
-                
-                const imgElement = dayElement.find('img');
-                const fallbackIcon = dayElement.find('span');
-                
-                imgElement.attr('src', iconUrl)
-                          .attr('alt', day.weather[0].description)
-                          .on('load', function() {
-                              console.log(`Icon loaded successfully for day ${index + 1}`);
-                              $(this).css('display', 'inline');
-                              fallbackIcon.hide();
-                          })
-                          .on('error', function() {
-                              console.error(`Failed to load weather icon for day ${index + 1}:`, iconUrl);
-                              $(this).hide();
-                              fallbackIcon.show();
-                          });
-            }
-        });
-    }
-
-    function displayForecast(forecast, unit) {
-        const forecastDays = $('.grid.grid-cols-2.sm\\:grid-cols-3.lg\\:grid-cols-5.gap-4 > div');
-        
-        forecast.forEach((day, index) => {
-            if (index < 5) {
-                const dayElement = forecastDays.eq(index);
-                const date = new Date(day.dt * 1000);
-                const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
-
-                dayElement.find('p:first').text(dayName);
-                dayElement.find('.text-lg.font-bold.text-white').text(`${Math.round(day.main.temp)}°${unit === 'metric' ? 'C' : 'F'}`);
-                dayElement.find('.text-xs.text-neon-blue').text(day.weather[0].main);
-
-                // Update weather icon
-                const iconClass = getWeatherIconClass(day.weather[0].main);
-                dayElement.find('i').attr('class', `${iconClass} text-2xl my-2 animate-spin-slow`);
-            }
-        });
-    }
-
-    // Geolocation support
     function getLocationAndFetchWeather() {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
@@ -226,43 +162,61 @@ $(document).ready(function() {
                 },
                 (error) => {
                     console.error("Geolocation error:", error);
-                    fetchWeatherData('Tokyo', currentUnit); // Fallback to Tokyo if geolocation fails
+                    fetchWeatherData('Tokyo', currentUnit);
                 }
             );
         } else {
             console.log("Geolocation is not supported by this browser.");
-            fetchWeatherData('Tokyo', currentUnit); // Fallback to Tokyo if geolocation is not supported
+            fetchWeatherData('Tokyo', currentUnit);
         }
     }
 
     function fetchWeatherByCoords(lat, lon, unit) {
+        showLoadingSpinner();
         $.ajax({
             url: `${BASE_URL}/weather?lat=${lat}&lon=${lon}&units=${unit}&appid=${API_KEY}`,
             method: 'GET',
             success: function(data) {
-                console.log('API response:', data);
                 weatherData[data.name] = data;
                 lastSearchTerm = data.name;
                 updateWeather(data, unit);
-                fetchForecast(data.name, unit);
-                addWeatherToTable(data, unit);
+                fetchForecastByCoords(lat, lon, unit);
             },
             error: function(xhr) {
                 handleApiError(xhr, "your location");
+                hideLoadingSpinner();
+            }
+        });
+    }
+
+    function fetchForecastByCoords(lat, lon, unit) {
+        $.ajax({
+            url: `${BASE_URL}/forecast?lat=${lat}&lon=${lon}&units=${unit}&appid=${API_KEY}`,
+            method: 'GET',
+            success: function(data) {
+                forecastData = data.list.filter(item => item.dt_txt.includes('12:00:00'));
+                $('#city-name').text(data.city.name);
+                updateForecastDisplay();
+                if ($('#temperatureChart').length) {
+                    updateCharts(forecastData, unit);
+                }
+                hideLoadingSpinner();
+            },
+            error: function(xhr) {
+                handleApiError(xhr, "your location");
+                hideLoadingSpinner();
             }
         });
     }
 
     function updateCharts(data, unit) {
-        const dailyData = data.list.filter(item => item.dt_txt.includes('12:00:00'));
-        
-        const temperatures = dailyData.map(day => day.main.temp);
-        const precipProbabilities = dailyData.map(day => day.pop * 100);
-        const humidity = dailyData.map(day => day.main.humidity);
+        const temperatures = data.map(day => day.main.temp);
+        const precipProbabilities = data.map(day => day.pop * 100);
+        const humidity = data.map(day => day.main.humidity);
 
         updateTemperatureChart(temperatures, unit);
         updatePrecipitationChart(precipProbabilities);
-        updateAQIChart(humidity); // Using humidity as a proxy for AQI
+        updateAQIChart(humidity);
     }
 
     function updateTemperatureChart(temperatures, unit) {
@@ -358,123 +312,56 @@ $(document).ready(function() {
             }
         });
     }
-    
 
-    function getWeatherIconClass(weatherMain) {
-        const iconMap = {
-            'Clear': 'fas fa-sun text-yellow-400',
-            'Clouds': 'fas fa-cloud text-gray-400',
-            'Rain': 'fas fa-cloud-showers-heavy text-blue-400',
-            'Snow': 'fas fa-snowflake text-white',
-            'Thunderstorm': 'fas fa-bolt text-yellow-500',
-            'Drizzle': 'fas fa-cloud-rain text-blue-300',
-            'Mist': 'fas fa-smog text-gray-300'
-        };
-        return iconMap[weatherMain] || 'fas fa-question text-gray-500';
-    }
+    function updateForecastDisplay() {
+        let displayData = [...forecastData];
+        const filter = $('#filter-select').val();
 
-    function addWeatherToTable(data, unit) {
-        const tableBody = $('#weatherTableBody');
-        const temp = currentUnit === 'metric' ? data.main.temp : celsiusToFahrenheit(data.main.temp);
-        const windSpeed = currentUnit === 'metric' ? data.wind.speed : mpsToMph(data.wind.speed);
-        const row = `
-            <tr>
-                <td>${data.name}</td>
-                <td>${Math.round(temp)}°${currentUnit === 'metric' ? 'C' : 'F'}</td>
-                <td>${data.main.humidity}%</td>
-                <td>${windSpeed.toFixed(2)} ${unit === 'metric' ? 'm/s' : 'mph'}</td>
-            </tr>
-        `;
-        
-        // Check if the city already exists in the table
-        const existingRow = tableBody.find(`tr:contains(${data.name})`);
-        if (existingRow.length) {
-            existingRow.replaceWith(row);
-        } else {
-            tableBody.append(row);
+        switch(filter) {
+            case 'temp-asc':
+                displayData.sort((a, b) => a.main.temp - b.main.temp);
+                break;
+            case 'temp-desc':
+                displayData.sort((a, b) => b.main.temp - a.main.temp);
+                break;
+            case 'highest-temp':
+                displayData = [displayData.reduce((max, current) => max.main.temp > current.main.temp ? max : current)];
+                break;
+            case 'rainy':
+                displayData = displayData.filter(day => 
+                    day.weather[0].main.toLowerCase().includes('rain') ||
+                    day.weather[0].main.toLowerCase().includes('drizzle')
+                );
+                break;
         }
-    }
 
-    function updateTableTemperatures() {
-        hideLoadingSpinner();
-        const tableBody = $('#weatherTableBody');
+        const tableBody = $('#forecastTableBody');
         tableBody.empty();
-        Object.values(weatherData).forEach(data => addWeatherToTable(data, currentUnit));
-    }
-    
-    function initializeWeather() {
-        showLoadingSpinner();
-        $('#weatherTableBody').empty();
-        weatherData = {}; // Clear existing data
-        const initialCities = ['London', 'New York', 'Tokyo', 'Paris', 'Sydney'];
-        let citiesLoaded = 0;
-        
-        initialCities.forEach(city => {
-            fetchWeatherData(city, currentUnit, function() {
-                citiesLoaded++;
-                if (citiesLoaded === initialCities.length) {
-                    hideLoadingSpinner();
-                }
-            });
+
+        displayData.forEach((day, index) => {
+            const date = new Date(day.dt * 1000);
+            const temp = currentUnit === 'metric' ? day.main.temp : celsiusToFahrenheit(day.main.temp);
+            const windSpeed = currentUnit === 'metric' ? day.wind.speed : mpsToMph(day.wind.speed);
+            const row = `
+                <tr class="fade-in" style="animation-delay: ${index * 0.1}s;">
+                    <td>${date.toLocaleDateString()}</td>
+                    <td>${Math.round(temp)}°${currentUnit === 'metric' ? 'C' : 'F'}</td>
+                    <td>
+                        <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="${day.weather[0].description}" class="inline-block mr-2">
+                        ${day.weather[0].description}
+                    </td>
+                    <td>${day.main.humidity}%</td>
+                    <td>${windSpeed.toFixed(1)} ${currentUnit === 'metric' ? 'm/s' : 'mph'}</td>
+                </tr>
+            `;
+            tableBody.append(row);
         });
     }
 
-    function showAllCities() {
-        updateFilteredWeatherTable(Object.entries(weatherData));
-    }
-
-    function updateFilteredWeatherTable(filteredData) {
-        hideLoadingSpinner();
-        const tableBody = $('#weatherTableBody');
-        tableBody.empty();
-        filteredData.forEach(([city, data]) => addWeatherToTable(data, currentUnit));
-    }
-
-    function sortTemperaturesAscending() {
-        const sortedData = Object.entries(weatherData).sort((a, b) => a[1].main.temp - b[1].main.temp);
-        updateFilteredWeatherTable(sortedData);
-    }
-    
-    function sortTemperaturesDescending() {
-        const sortedData = Object.entries(weatherData).sort((a, b) => b[1].main.temp - a[1].main.temp);
-        updateFilteredWeatherTable(sortedData);
-    }
-    
-    function showHighestTemperature() {
-        const highestTempData = Object.entries(weatherData).reduce((max, current) => 
-            current[1].main.temp > max[1].main.temp ? current : max
-        );
-        updateFilteredWeatherTable([highestTempData]);
-    }
-
-    function filterRainyDays() {
-        const rainyData = Object.entries(weatherData).filter(([city, data]) => 
-            data.weather[0].main === 'Rain' || data.weather[0].main === 'Drizzle'
-        );
-        updateFilteredWeatherTable(rainyData);
-    }
-
-
-    // Add event listener for filter selection
     $('#filter-select').on('change', function() {
-        const selectedFilter = $(this).val();
-        switch(selectedFilter) {
-            case 'temp-asc':
-                sortTemperaturesAscending();
-                break;
-            case 'temp-desc':
-                sortTemperaturesDescending();
-                break;
-            case 'rainy':
-                filterRainyDays();
-                break;
-            case 'highest-temp':
-                showHighestTemperature();
-                break;
-            case 'all':
-            default:
-                hideLoadingSpinner();
-                showAllCities();
+        updateForecastDisplay();
+        if ($('#temperatureChart').length) {
+            updateCharts(forecastData, currentUnit);
         }
     });
 
@@ -487,14 +374,19 @@ $(document).ready(function() {
     }
 
     function showLoadingSpinner() {
-        $('#loading-spinner').removeClass('hidden');
+        $('#loading-spinner').removeClass('hidden').addClass('fade-in');
     }
     
     function hideLoadingSpinner() {
-        $('#loading-spinner').addClass('hidden');
+        $('#loading-spinner').addClass('hidden').removeClass('fade-in');
+    }
+
+    function initializeWeather() {
+        showLoadingSpinner();
+        weatherData = {};
+        getLocationAndFetchWeather();
     }
 
     initializeWeather();
-    getLocationAndFetchWeather();
     $('#filter-select').val('all');
 });
