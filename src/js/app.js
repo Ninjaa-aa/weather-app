@@ -155,29 +155,44 @@ $(document).ready(function() {
     }
 
     function updateForecast(data, unit) {
+        console.log('Updating forecast with data:', data);
         const forecastDays = $('.grid.grid-cols-2.sm\\:grid-cols-3.lg\\:grid-cols-5.gap-4 > div');
         const dailyData = data.list.filter(item => item.dt_txt.includes('12:00:00'));
-
+        console.log('Filtered daily data:', dailyData);
+    
         dailyData.forEach((day, index) => {
             if (index < 5) {
+                console.log(`Updating forecast for day ${index + 1}:`, day);
                 const dayElement = forecastDays.eq(index);
                 const date = new Date(day.dt * 1000);
                 const dayName = date.toLocaleDateString('en-US', { weekday: 'short' });
-
+    
                 dayElement.find('p:first').text(dayName);
                 dayElement.find('.text-lg.font-bold.text-white').text(`${Math.round(day.main.temp)}°${unit === 'metric' ? 'C' : 'F'}`);
-                dayElement.find('.text-xs.text-neon-blue').text(day.weather[0].main);
-
+                dayElement.find('.text-xs.text-neon-blue').text(day.weather[0].description);
+    
                 // Update weather icon
-                const iconClass = getWeatherIconClass(day.weather[0].main);
-                dayElement.find('i').attr('class', `${iconClass} text-2xl my-2 animate-spin-slow`);
+                const iconCode = day.weather[0].icon;
+                const iconUrl = `https://openweathermap.org/img/wn/${iconCode}.png`;
+                console.log(`Loading icon for day ${index + 1}:`, iconUrl);
+                
+                const imgElement = dayElement.find('img');
+                const fallbackIcon = dayElement.find('span');
+                
+                imgElement.attr('src', iconUrl)
+                          .attr('alt', day.weather[0].description)
+                          .on('load', function() {
+                              console.log(`Icon loaded successfully for day ${index + 1}`);
+                              $(this).css('display', 'inline');
+                              fallbackIcon.hide();
+                          })
+                          .on('error', function() {
+                              console.error(`Failed to load weather icon for day ${index + 1}:`, iconUrl);
+                              $(this).hide();
+                              fallbackIcon.show();
+                          });
             }
         });
-    }
-
-    function updateForecast(data, unit) {
-        forecastData = data.list.filter(item => item.dt_txt.includes('12:00:00'));
-        displayForecast(forecastData, unit);
     }
 
     function displayForecast(forecast, unit) {
