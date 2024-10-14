@@ -253,11 +253,16 @@ select:focus {
     background-repeat: no-repeat;
     background-position: right 0.7rem top 50%;
     background-size: 1.5rem auto;
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    border-radius: 0.25rem;
+    transition: all 0.3s ease;
 }
+
 .cyber-select:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.5);
 }
+
 .cyber-select option {
     background-color: #1a1a2e;
     color: #00f3ff;
@@ -304,71 +309,90 @@ canvas {
     height: 100% !important;
 }
 
+/* ... (previous CSS rules remain the same) ... */
+
 .table-container {
     max-height: 400px;
     overflow-y: auto;
-    overflow-x: hidden;
+    overflow-x: auto;
     border-radius: 0.5rem;
     box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
 }
+
 .futuristic-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
+    white-space: nowrap;
 }
-.futuristic-table thead {
-    position: sticky;
-    top: 0;
-    z-index: 1;
-    background: rgba(26, 26, 46, 0.9);
-}
-.futuristic-table th {
+
+.futuristic-table th,
+.futuristic-table td {
     padding: 1rem;
-    text-align: left;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.weather-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.weather-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 0.5rem;
+}
+
+.futuristic-table th {
     color: var(--neon-purple);
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
+    background-color: var(--darker-bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
 }
-.futuristic-table tbody tr {
-    background: rgba(255, 255, 255, 0.05);
-    transition: background-color 0.3s ease;
-}
-.futuristic-table tbody tr:hover {
-    background: rgba(0, 243, 255, 0.1);
-}
+
 .futuristic-table td {
-    padding: 1rem;
     border-top: 1px solid rgba(0, 243, 255, 0.3);
     border-bottom: 1px solid rgba(0, 243, 255, 0.3);
     transition: color 0.3s ease;
 }
-.futuristic-table td:first-child {
-    border-left: 1px solid rgba(0, 243, 255, 0.3);
+
+.futuristic-table tbody tr {
+    background: rgba(255, 255, 255, 0.05);
+    transition: background-color 0.3s ease;
 }
-.futuristic-table td:last-child {
-    border-right: 1px solid rgba(0, 243, 255, 0.3);
+
+.futuristic-table tbody tr:hover {
+    background: rgba(0, 243, 255, 0.1);
 }
+
 .futuristic-table tr:hover td {
     color: var(--neon-blue);
 }
-/* Custom scrollbar */
+
 .table-container::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
 }
+
 .table-container::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
     border-radius: 5px;
 }
+
 .table-container::-webkit-scrollbar-thumb {
     background: var(--neon-blue);
     border-radius: 5px;
 }
+
 .table-container::-webkit-scrollbar-thumb:hover {
     background: var(--neon-purple);
 }
-
-
 .error-message {
     background-color: rgba(220, 38, 38, 0.1);
     border: 1px solid rgba(220, 38, 38, 0.5);
@@ -479,4 +503,49 @@ df-messenger::part(send-icon) {
 
 .hidden {
     display: none;
+}
+
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .futuristic-table th,
+    .futuristic-table td {
+        padding: 0.5rem;
+    }
+
+    .weather-cell {
+        flex-direction: column;
+    }
+
+    .weather-icon {
+        margin-right: 0;
+        margin-bottom: 0.25rem;
+    }
+
+    .dashboard-title {
+        font-size: 1.2rem;
+    }
+
+    .dashboard-value {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .cyber-select {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .search-bar {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .switch {
+        margin-top: 1rem;
+    }
 }

@@ -320,7 +320,7 @@ $(document).ready(function() {
     function updateForecastDisplay() {
         let displayData = [...forecastData];
         const filter = $('#filter-select').val();
-
+    
         switch(filter) {
             case 'temp-asc':
                 displayData.sort((a, b) => a.main.temp - b.main.temp);
@@ -338,22 +338,28 @@ $(document).ready(function() {
                 );
                 break;
         }
-
+    
         const tableBody = $('#forecastTableBody');
         tableBody.empty();
-
+    
         displayData.forEach((day, index) => {
             const date = new Date(day.dt * 1000);
             const temp = currentUnit === 'metric' ? day.main.temp : celsiusToFahrenheit(day.main.temp);
             const windSpeed = currentUnit === 'metric' ? day.wind.speed : mpsToMph(day.wind.speed);
+            
+            // New weather cell structure
+            const weatherCell = `
+                <div class="weather-cell">
+                    <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="${day.weather[0].description}" class="weather-icon">
+                    <span>${day.weather[0].description}</span>
+                </div>
+            `;
+    
             const row = `
                 <tr class="fade-in" style="animation-delay: ${index * 0.1}s;">
                     <td>${date.toLocaleDateString()}</td>
                     <td>${Math.round(temp)}°${currentUnit === 'metric' ? 'C' : 'F'}</td>
-                    <td>
-                        <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="${day.weather[0].description}" class="inline-block mr-2">
-                        ${day.weather[0].description}
-                    </td>
+                    <td>${weatherCell}</td>
                     <td>${day.main.humidity}%</td>
                     <td>${windSpeed.toFixed(1)} ${currentUnit === 'metric' ? 'm/s' : 'mph'}</td>
                 </tr>

@@ -3,36 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEXUSWeather - Futuristic Table</title>
+    <title>NEXUSWeather - Forecast Table</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <link rel="stylesheet" href="../css/styles.css">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/48/weather.png" sizes="48x48">
     <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/32/weather.png" sizes="32x32">
     <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/16/weather.png" sizes="16x16">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/96/weather.png">
-    
     <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
-    <style>
-        df-messenger {
-            z-index: 999;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body class="bg-dark cyber-grid">
     <div class="container mx-auto p-4 lg:p-8">
-        <!-- Loading overlay -->
         <div id="loading-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm hidden">
             <div class="loading-spinner"></div>
         </div>
         <main class="glassmorphism rounded-lg overflow-hidden neon-box animate-fade-in hologram">
             <div class="flex flex-col lg:flex-row">
-                <!-- Sidebar for table.html -->
                 <aside class="lg:w-1/5 bg-opacity-30 bg-neon-blue p-6 gradient-shift">
                     <header class="mb-8">
                         <h1 class="text-3xl font-bold neon-text typing-animation" data-text="NEXUSWeather">
@@ -51,7 +39,6 @@
                     </nav>
                 </aside>
                 
-                <!-- Main Content Area -->
                 <section class="lg:w-4/5 p-6">
                     <header class="flex flex-col md:flex-row justify-between items-center mb-6 animate-slide-in">
                         <div class="w-full md:w-2/3 mb-4 md:mb-0 flex items-center">
@@ -75,16 +62,14 @@
                         </div>
                     </header>
                     
-                    <!-- Error message container -->
                     <div id="error-message" class="error-message" role="alert"></div>
 
-                    <!-- 5-Day Forecast Table -->
                     <article class="glassmorphism rounded-lg p-6 mb-6 animate-slide-in hologram" style="animation-delay: 0.1s;">
-                        <h2 class="text-2xl font-semibold mb-4 text-neon-blue neon-text">5-Day Forecast: <span id="city-name">City Name</span></h2>
-
-                        <div class="mb-4">
-                            <label for="filter-select" class="text-white mr-2">Filter:</label>
-                            <select id="filter-select" class="bg-white bg-opacity-10 text-white border border-neon-blue rounded-md p-2">
+                        <h2 class="text-2xl font-semibold mb-4 text-neon-blue">5-Day Forecast: <span id="city-name">City Name</span></h2>
+                    
+                        <div class="mb-4 flex flex-wrap items-center">
+                            <label for="filter-select" class="text-white mr-2 mb-2 md:mb-0">Filter:</label>
+                            <select id="filter-select" class="cyber-select w-full md:w-auto mb-2 md:mb-0">
                                 <option value="all">All Days</option>
                                 <option value="temp-asc">Temperature (Low to High)</option>
                                 <option value="temp-desc">Temperature (High to Low)</option>
@@ -92,8 +77,8 @@
                                 <option value="rainy">Rainy Days</option>
                             </select>
                         </div>
-
-                        <div class="table-container">
+                    
+                        <div class="table-container overflow-x-auto">
                             <table class="futuristic-table w-full">
                                 <thead>
                                     <tr>
@@ -105,7 +90,20 @@
                                     </tr>
                                 </thead>
                                 <tbody id="forecastTableBody">
-                                    <!-- Forecast data will be dynamically inserted here -->
+                                    <!-- Example of how a row should be structured -->
+                                    <tr>
+                                        <td>2024-10-15</td>
+                                        <td>28°C</td>
+                                        <td>
+                                            <div class="weather-cell">
+                                                <img src="path_to_weather_icon.png" alt="Weather Icon" class="weather-icon mr-2">
+                                                <span>Clear sky</span>
+                                            </div>
+                                        </td>
+                                        <td>36%</td>
+                                        <td>0.9 m/s</td>
+                                    </tr>
+                                    <!-- More rows will be dynamically inserted here -->
                                 </tbody>
                             </table>
                         </div>
@@ -115,7 +113,6 @@
         </main>
     </div>
 
-    <!-- Modal -->
     <div id="profileModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-dark glassmorphism neon-box p-8 rounded-lg max-w-sm w-full relative">
             <button id="closeModal" class="absolute top-2 right-2 text-white hover:text-neon-blue transition duration-300">
@@ -127,7 +124,6 @@
         </div>
     </div>
 
-    <!-- Dialogflow Messenger Element -->
     <df-messenger
       intent="WELCOME"
       chat-title="NEXUSWeather Assistant"
