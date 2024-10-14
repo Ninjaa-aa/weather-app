@@ -384,12 +384,14 @@ canvas {
 }
 .loading-spinner {
     border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid var(--neon-blue);
     border-radius: 50%;
-    border-top: 4px solid #3498db;
     width: 40px;
     height: 40px;
+    
     animation: spin 1s linear infinite;
 }
+
 
 .profile-image {
     width: 40px;
@@ -402,4 +404,71 @@ canvas {
 .profile-image:hover {
     transform: scale(1.1);
     box-shadow: 0 0 15px rgba(52, 152, 219, 0.7);
+}
+
+#chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+    transition: all 0.3s ease;
+}
+#chatbot-container:hover {
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.8);
+}
+#chatbot-iframe {
+    border: none;
+    width: 350px;
+    height: 430px;
+    transition: all 0.3s ease;
+}
+#chatbot-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 243, 255, 0.2);
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#chatbot-toggle:hover {
+    background: rgba(0, 243, 255, 0.4);
+}
+.chatbot-minimized {
+    width: 60px !important;
+    height: 60px !important;
+}
+
+df-messenger {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+df-messenger {
+    --df-messenger-bot-message: #0e1117;
+    --df-messenger-button-titlebar-color: #2b2f3e;
+    --df-messenger-chat-background-color: #131722;
+    --df-messenger-font-color: white;
+    --df-messenger-send-icon: #00f3ff;
+    --df-messenger-user-message: #4b5563;
+}
+
+/* Modal styling */
+#profileModal {
+    transition: opacity 0.3s ease;
+}
+
+#profileModal .glassmorphism {
+    animation: fade-in 0.3s ease;
+}
+
+.hidden {
+    display: none;
 }

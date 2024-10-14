@@ -14,6 +14,7 @@
     <link rel="icon" type="image/png" href="https://img.icons8.com/fluency/16/weather.png" sizes="16x16">
     <link rel="apple-touch-icon" href="https://img.icons8.com/fluency/96/weather.png">
     
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
 </head>
 <body class="bg-dark cyber-grid">
     <div class="container mx-auto p-4 lg:p-8">
@@ -60,6 +61,7 @@
                         <div class="w-full md:w-1/3 flex justify-end">
                             <img id="profile-image" src="../asset/img/ninja.jpg" alt="Profile" class="profile-image cursor-pointer w-10 h-10 rounded-full object-cover border-2 border-neon-blue hover:scale-110 transition-transform duration-300">
                         </div>
+
                     </header>
                     
                     <!-- Error message container -->
@@ -104,7 +106,27 @@
     <div id="loading-spinner" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
         <div class="loading-spinner"></div>
     </div>
+    
+    <df-messenger
+      intent="WELCOME"
+      chat-title="NEXUSWeather Assistant"
+      agent-id="217ad719-4bfa-40f5-93b4-7c709cfa5886"
+      language-code="en"
+    ></df-messenger>
+
+    <!-- Modal -->
+    <div id="profileModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-dark glassmorphism neon-box p-8 rounded-lg max-w-sm w-full relative">
+            <button id="closeModal" class="absolute top-2 right-2 text-white hover:text-neon-blue transition duration-300">
+                <i class="fas fa-times"></i>
+            </button>
+            <img src="../asset/img/ninja.jpg" alt="Profile Image" class="w-24 h-24 rounded-full mx-auto mb-4 border-2 border-neon-blue">
+            <h3 class="text-xl font-semibold text-neon-blue text-center">Hammad Zahid</h3>
+            <p class="text-white text-center">hammadzahid254@gmail.com</p>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/app.js"></script>
 </body>
-</html>
+</html>s

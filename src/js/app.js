@@ -6,6 +6,18 @@ $(document).ready(function() {
     let weatherData = {};
     let lastSearchTerm = '';
     let forecastData = [];
+    let minimized = false;
+    
+    $('#chatbot-toggle').click(function() {
+        minimized = !minimized;
+        if (minimized) {
+            $('#chatbot-iframe').addClass('chatbot-minimized');
+            $(this).text('+');
+        } else {
+            $('#chatbot-iframe').removeClass('chatbot-minimized');
+            $(this).text('-');
+        }
+    });
 
     const commonChartOptions = {
         responsive: true,
@@ -391,19 +403,22 @@ $(document).ready(function() {
         getLocationAndFetchWeather();
     }
 
-    // Add this new function to handle profile image click
-    function handleProfileImageClick() {
-        // You can add functionality here, such as opening a profile modal
-        alert('Profile image clicked! Add your desired functionality here.');
-    }
+    // Open modal when profile image is clicked
+    $('#profile-image').on('click', function() {
+        $('#profileModal').removeClass('hidden');
+    });
 
-    // Add click event listener to the profile image
-    $('#profile-image').on('click', handleProfileImageClick);
+    // Close modal when close button is clicked
+    $('#closeModal').on('click', function() {
+        $('#profileModal').addClass('hidden');
+    });
 
-    // Function to update profile image (you can call this when user logs in or changes their profile picture)
-    function updateProfileImage(imageUrl) {
-        $('#profile-image').attr('src', imageUrl);
-    }
+    // Optionally close modal when clicking outside the modal content
+    $('#profileModal').on('click', function(event) {
+        if ($(event.target).is('#profileModal')) {
+            $('#profileModal').addClass('hidden');
+        }
+    });
 
     initializeWeather();
 
