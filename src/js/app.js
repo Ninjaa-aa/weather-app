@@ -391,6 +391,21 @@ $(document).ready(function() {
         getLocationAndFetchWeather();
     }
 
+    // Add this new function to handle profile image click
+    function handleProfileImageClick() {
+        // You can add functionality here, such as opening a profile modal
+        alert('Profile image clicked! Add your desired functionality here.');
+    }
+
+    // Add click event listener to the profile image
+    $('#profile-image').on('click', handleProfileImageClick);
+
+    // Function to update profile image (you can call this when user logs in or changes their profile picture)
+    function updateProfileImage(imageUrl) {
+        $('#profile-image').attr('src', imageUrl);
+    }
+
     initializeWeather();
+
     $('#filter-select').val('all');
 });
