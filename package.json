@@ -4,6 +4,7 @@
   },
   "dependencies": {
     "chart.js": "^4.4.4",
+    "dotenv": "^16.4.5",
     "jquery": "^3.7.1"
   },
   "scripts": {
