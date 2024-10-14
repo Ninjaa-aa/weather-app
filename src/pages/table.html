@@ -18,6 +18,10 @@
 </head>
 <body class="bg-dark cyber-grid">
     <div class="container mx-auto p-4 lg:p-8">
+        <!-- Place this just inside the <body> tag, before other content -->
+        <div id="loading-overlay" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-filter backdrop-blur-sm hidden">
+            <div class="loading-spinner"></div>
+        </div>
         <main class="glassmorphism rounded-lg overflow-hidden neon-box animate-fade-in hologram">
             <div class="flex flex-col lg:flex-row">
                 <!-- Sidebar for table.html -->
@@ -103,9 +107,7 @@
             </div>
         </main>
     </div>
-    <div id="loading-spinner" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
-        <div class="loading-spinner"></div>
-    </div>
+
     
     <df-messenger
       intent="WELCOME"

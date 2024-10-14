@@ -390,11 +390,13 @@ $(document).ready(function() {
     }
 
     function showLoadingSpinner() {
-        $('#loading-spinner').removeClass('hidden').addClass('fade-in');
+        $('#loading-overlay').removeClass('hidden').addClass('flex');
+        $('body').addClass('overflow-hidden'); // Prevent scrolling while loading
     }
     
     function hideLoadingSpinner() {
-        $('#loading-spinner').addClass('hidden').removeClass('fade-in');
+        $('#loading-overlay').addClass('hidden').removeClass('flex');
+        $('body').removeClass('overflow-hidden'); // Allow scrolling again
     }
 
     function initializeWeather() {
