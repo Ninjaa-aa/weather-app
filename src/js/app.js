@@ -416,6 +416,31 @@ $(document).ready(function() {
         }
     });
 
+    // Function to set the active link
+    function setActiveLink(page) {
+        $('.sidebar-link').removeClass('selected');
+        $(`.sidebar-link[data-page="${page}"]`).addClass('selected');
+        localStorage.setItem('activePage', page);
+    }
+
+    // Check for active page in localStorage and set it
+    var activePage = localStorage.getItem('activePage') || 'dashboard';
+    setActiveLink(activePage);
+
+    // Add click event to sidebar links
+    $('.sidebar-link').on('click', function(e) {
+        e.preventDefault();
+        var page = $(this).data('page');
+        var href = $(this).attr('href');
+        setActiveLink(page);
+        
+        // Show loading overlay
+        $('#loading-overlay').removeClass('hidden');
+        
+        // Perform the navigation
+        window.location.href = href;
+    });
+    
     initializeWeather();
 
     $('#filter-select').val('all');

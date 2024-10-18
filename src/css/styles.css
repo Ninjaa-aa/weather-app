@@ -82,6 +82,80 @@ body {
     border: 1px solid var(--neon-blue);
 }
 
+.sidebar-link {
+    transition: all 0.3s ease;
+}
+
+.sidebar-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-link.selected {
+    background-color: var(--neon-blue);
+    color: var(--darker-bg);
+    box-shadow: 0 0 10px var(--neon-blue);
+}
+
+.sidebar-link.selected i {
+    color: var(--darker-bg);
+}
+
+@media (max-width: 1023px) {
+    aside {
+        width: 100%;
+        padding: 1rem;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .sidebar-link {
+        flex: 1;
+        text-align: center;
+        padding: 0.5rem;
+    }
+
+    .sidebar-link span {
+        display: none;
+    }
+
+    .sidebar-link i {
+        font-size: 1.5rem;
+        margin-right: 0;
+    }
+}
+
+/* Ensure text is visible on larger screens */
+@media (min-width: 1024px) {
+    .sidebar-link span {
+        display: inline;
+    }
+}
+
+@media (min-width: 1024px) {
+    .sidebar-title {
+        font-size: 1.5rem; /* Slightly larger on desktop */
+    }
+}
+
+
+.sidebar-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    font-size: 1.25rem; /* Adjust this value as needed */
+    letter-spacing: -0.5px; /* Slightly reduce letter spacing */
+    color: var(--neon-blue);
+    font-weight: bold;
+    text-shadow: 0 0 5px var(--neon-blue);
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--neon-blue);
+    background-color: rgba(26, 26, 46, 0.8);
+    box-shadow: 0 2px 5px rgba(0, 243, 255, 0.2);
+}
 .slider:before {
     position: absolute;
     content: "";
@@ -548,4 +622,33 @@ df-messenger::part(send-icon) {
     .switch {
         margin-top: 1rem;
     }
+}
+
+
+body {
+    font-family: 'Orbitron', sans-serif;
+}
+.typing-indicator {
+    display: flex;
+    align-items: center;
+}
+.typing-indicator span {
+    height: 8px;
+    width: 8px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px;
+    animation: typing 1s infinite ease-in-out;
+}
+.typing-indicator span:nth-child(1) { animation-delay: 0.1s; }
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { 
+    animation-delay: 0.3s;
+    margin-right: 0;
+}
+@keyframes typing {
+    0% { transform: translateY(0px); }
+    28% { transform: translateY(-7px); }
+    44% { transform: translateY(0px); }
 }

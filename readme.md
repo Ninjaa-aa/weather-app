@@ -1,10 +1,12 @@
 # NEXUSWeather Dashboard
 
-NEXUSWeather is a fully responsive weather dashboard that provides current weather information and a 5-day forecast using the OpenWeather API. It also includes a chatbot powered by Dialogflow for answering weather-related queries.
+NEXUSWeather is a fully responsive weather dashboard that provides current weather information and a 5-day forecast using the OpenWeather API. It includes two chatbot options: one powered by Dialogflow for general weather queries, and another using Google's Gemini API for more advanced interactions.
 
 ## Live Demo
 
-You can access the live version of NEXUSWeather at: [https://nexus-weather-511.web.app](https://nexus-weather-511.web.app)
+You can access the live versions of NEXUSWeather at:
+- Firebase: [https://nexus-weather-511.web.app](https://nexus-weather-511.web.app)
+- GitHub Pages: [https://ninjaa-aa.github.io/weather-app/](https://ninjaa-aa.github.io/weather-app/)
 
 ## Features
 
@@ -13,7 +15,9 @@ You can access the live version of NEXUSWeather at: [https://nexus-weather-511.w
 - Interactive charts using Chart.js
 - Customizable filters for weather data
 - Unit conversion (Celsius/Fahrenheit)
-- Chatbot integration for weather queries
+- Dual chatbot integration:
+  - Dialogflow for general weather queries
+  - Gemini API for advanced interactions
 - Responsive design
 - Geolocation support
 - Advanced filtering options
@@ -36,8 +40,10 @@ The dashboard uses the browser's geolocation API to detect the user's location a
 - JavaScript (jQuery)
 - OpenWeather API
 - Dialogflow API
+- Google Gemini API
 - Chart.js
 - Firebase (for deployment)
+- GitHub Pages (for deployment)
 
 ## Setup and Running Locally
 
@@ -65,9 +71,19 @@ To run the project locally with full functionality, you'll need to set up the fo
    - Set up a project in [Dialogflow](https://dialogflow.cloud.google.com/)
    - Replace the `agent-id` in the `<df-messenger>` tag in both HTML files with your Dialogflow agent ID
 
-## Deployment to Firebase
+3. Google Gemini API:
+   - Set up a project in the [Google AI Studio](https://makersuite.google.com/app/apikey)
+   - Create an API key for the Gemini API
+   - Replace `'YOUR_GEMINI_API_KEY'` in the chatbot script with your actual API key:
+     ```javascript
+     const genAI = new GoogleGenerativeAI('YOUR_GEMINI_API_KEY');
+     ```
 
-The project is already deployed to Firebase. If you want to deploy your own version:
+## Deployment
+
+### Firebase Deployment
+
+The project is deployed to Firebase. To deploy your own version:
 
 1. Install Firebase CLI:
    ```
@@ -96,10 +112,20 @@ The project is already deployed to Firebase. If you want to deploy your own vers
 
 5. Your app will be live at the provided Firebase hosting URL.
 
+### GitHub Pages Deployment
+
+The project is also live on GitHub Pages. To update the GitHub Pages deployment:
+
+1. Ensure your changes are committed and pushed to the main branch.
+2. GitHub Actions will automatically deploy the updated site to GitHub Pages.
+3. You can view the deployment process in the "Actions" tab of your GitHub repository.
+
 ## Additional Notes
 
 - The project uses the free tier of OpenWeather API, which has a limit of 60 calls/minute. Please be mindful of this limitation when testing.
-- The chatbot is integrated using Dialogflow's `<df-messenger>` web component. Ensure you have the correct agent ID for it to function properly.
+- Two chatbot options are available:
+  - Dialogflow chatbot is integrated using the `<df-messenger>` web component. Ensure you have the correct agent ID for it to function properly.
+  - Gemini API chatbot is integrated for more advanced interactions. Make sure you have the correct API key set up.
 - The project includes various filters for the weather data, accessible through the dropdown menu on the table page.
 - Geolocation functionality requires user permission and a secure context (HTTPS) to work properly.
 
